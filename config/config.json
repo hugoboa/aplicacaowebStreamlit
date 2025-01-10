@@ -1,0 +1,17 @@
+{   
+    "csv_file_path": "C:/Users/hugo/Downloads/dados_concatenados.csv",
+    "mysql": {
+        "host": "192.168.10.81",
+        "user": "devbi",
+        "password": "6IloFazqWgLk",
+        "database": "sge",
+        "port": 4406
+    },
+    "postgresql": {
+        "host": "localhost",
+        "user": "postgres",
+        "password": "dw@bi#",
+        "database": "postgres",
+        "port": 5433
+    }
+}
