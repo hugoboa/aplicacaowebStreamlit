@@ -1,6 +1,8 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+from adapters.db.postgres_adapter import PostgresAdapter
+from config.settings import CONFIG
 
 def load_csv(file_path):
     try:
@@ -8,6 +10,22 @@ def load_csv(file_path):
     except Exception as e:
         st.error(f"Erro ao carregar o arquivo CSV: {e}")
         return None
+
+def get_user_ceems(user_id):
+    """
+    Recupera os códigos das CEEMs vinculadas ao usuário logado.
+    """
+    query = """
+    SELECT codigo_ceem
+    FROM acesso_ceem_usuario
+    WHERE id_usuario = %s
+    """
+    try:
+        result = PostgresAdapter.execute_query(query, (user_id,), CONFIG["postgresql"])
+        return [row[0] for row in result]
+    except Exception as e:
+        st.error(f"Erro ao carregar CEEMs do usuário: {e}")
+        return []
 
 def Performance_comercial():
     # Verificar se o usuário está logado
@@ -25,19 +43,32 @@ def Performance_comercial():
         st.session_state.username = None
         st.session_state.is_admin = None
         st.session_state.current_page = "Login"
+        st.experimental_rerun()
+
+    # Recuperar as CEEMs vinculadas ao usuário
+    user_ceems = get_user_ceems(st.session_state.user_id)
+    if not user_ceems:
+        st.warning("Você não tem acesso a nenhuma CEEM.")
+        st.stop()
 
     # Carregar o CSV
     file_path = r"C:\Users\hugo\Downloads\dados_concatenados.csv"
     data = load_csv(file_path)
 
     if data is not None:
-       # st.sidebar.success("Dados carregados com sucesso!")
-
         # Garantir que 'codigo_ceem' seja string
         if "codigo_ceem" in data.columns:
             data["codigo_ceem"] = data["codigo_ceem"].astype(str)
         else:
             st.error("A coluna 'codigo_ceem' não está presente no CSV.")
+            return
+
+        # Filtrar os dados com base nas CEEMs vinculadas ao usuário
+        data = data[data["codigo_ceem"].isin(map(str, user_ceems))]
+
+        # Verificar se o DataFrame está vazio após o filtro
+        if data.empty:
+            st.warning("Nenhum dado encontrado para as CEEMs atribuídas ao seu usuário.")
             return
 
         # Criar campo combinado para o filtro de CEEM
@@ -49,7 +80,7 @@ def Performance_comercial():
 
         # Barra lateral para filtros
         st.sidebar.header("Filtros")
-        
+
         # Filtro de CEEM
         ceem_opcoes = data["codigo_nome_ceem"].unique().tolist()
         ceem_opcoes.insert(0, "Todos")
@@ -63,7 +94,7 @@ def Performance_comercial():
         # Filtro de Data
         if "Venda" in data.columns:
             data["Venda"] = pd.to_datetime(data["Venda"], errors="coerce")
-            data = data.dropna(subset=["Venda"])  # Remover linhas inválidas
+            data = data.dropna(subset=["Venda"])
             if not data.empty:
                 st.sidebar.subheader("Filtro por Data")
                 min_date = data["Venda"].min().date()
@@ -98,36 +129,6 @@ def Performance_comercial():
             valor_total=("ValorTotalPago", "sum")
         ).reset_index()
 
-        # Botão para salvar os dados filtrados
-        st.header("Salvar Dados Filtrados")
-        csv_data = data.to_csv(index=False).encode("utf-8")
-        st.download_button(
-            label="Salvar Dados Filtrados como CSV",
-            data=csv_data,
-            file_name="dados_filtrados.csv",
-            mime="text/csv"
-        )
-
-        # Exibir a tabela com paginação
-        st.header("Tabela de Dados Filtrados")
-        rows_per_page = 100
-        total_rows = len(data)
-        total_pages = (total_rows - 1) // rows_per_page + 1
-
-        page_number = st.number_input(
-            label="Número da página",
-            min_value=1,
-            max_value=total_pages,
-            value=1,
-            step=1
-        )
-
-        start_idx = (page_number - 1) * rows_per_page
-        end_idx = start_idx + rows_per_page
-
-        st.write(f"Mostrando linhas {start_idx + 1} a {min(end_idx, total_rows)} de {total_rows}")
-        st.dataframe(data.iloc[start_idx:end_idx])
-
         # Exibir a tabela consolidada
         st.header("Consolidado por CEEM")
         st.dataframe(ceem_consolidated, height=500)
@@ -148,6 +149,25 @@ def Performance_comercial():
             )
             fig.update_layout(xaxis_title="Data de Venda", yaxis_title="Valor Total Pago (R$)")
             st.plotly_chart(fig)
+        # Exibir a tabela com paginação
+        st.header("Tabela de Dados Filtrados")
+        rows_per_page = 100
+        total_rows = len(data)
+        total_pages = (total_rows - 1) // rows_per_page + 1
+
+        page_number = st.number_input(
+            label="Número da página",
+            min_value=1,
+            max_value=total_pages,
+            value=1,
+            step=1
+        )
+
+        start_idx = (page_number - 1) * rows_per_page
+        end_idx = start_idx + rows_per_page
+
+        st.write(f"Mostrando linhas {start_idx + 1} a {min(end_idx, total_rows)} de {total_rows}")
+        st.dataframe(data.iloc[start_idx:end_idx])
 
     else:
         st.error("Falha ao carregar o CSV. Verifique o caminho e o formato do arquivo.")
