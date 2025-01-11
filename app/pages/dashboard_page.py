@@ -169,6 +169,16 @@ def Performance_comercial():
         st.write(f"Mostrando linhas {start_idx + 1} a {min(end_idx, total_rows)} de {total_rows}")
         st.dataframe(data.iloc[start_idx:end_idx])
 
+        
+        # Baixar dados filtrados
+        st.download_button(
+            label="Baixar Dados Filtrados",
+            data=data.to_csv(index=False).encode("utf-8"),
+            file_name="dados_filtrados.csv",
+            mime="text/csv"
+)
+
+
     else:
         st.error("Falha ao carregar o CSV. Verifique o caminho e o formato do arquivo.")
 
