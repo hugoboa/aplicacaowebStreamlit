@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 from adapters.db.postgres_adapter import PostgresAdapter
+
 #from calculations.db_queries import get_dados_base
 from config.settings import CONFIG
 import os

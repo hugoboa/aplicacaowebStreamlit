@@ -2,6 +2,7 @@ import streamlit as st
 from app.pages.home_page import home_page
 from app.pages.login_page import login_page
 from app.pages.dashboards_pages import dashboards_page
+from app.pages.dashboard_page import Performance_comercial
 import os
 os.environ["STREAMLIT_SERVER_FILEWATCHERTYPE"] = "none"
 def initialize_session_state():
@@ -25,7 +26,8 @@ def render_current_page():
         dashboards_page()
     elif st.session_state.current_page == "Login":
         login_page()
-
+    elif st.session_state.current_page == "Comercial":
+        Performance_comercial()
 def main():
     """
     Define o fluxo principal da aplicação Streamlit.
@@ -46,7 +48,7 @@ def main():
 
     # Controle de navegação
     if st.session_state.logged_in:
-        menu_options = ["Home", "Dashboards"]
+        menu_options = ["Home", "Dashboards",]
     else:
         menu_options = ["Login"]
 

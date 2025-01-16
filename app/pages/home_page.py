@@ -61,10 +61,6 @@ def home_page():
                 <img src="https://via.placeholder.com/800x300?text=Imagem+3" alt="Imagem 3">
             </div>
         </div>
-        <div class="buttons">
-            <button onclick="prev()">Anterior</button>
-            <button onclick="next()">Próximo</button>
-        </div>
         """,
         unsafe_allow_html=True,
     )
