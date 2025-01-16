@@ -4,14 +4,14 @@ from config.settings import CONFIG
 
 def login_page():
     st.title("Login")
-    st.markdown("Por favor, insira suas credenciais para acessar o sistema.")
+    
 
     # Formulário de Login
     with st.form("login_form"):
         username = st.text_input("Usuário")
         password = st.text_input("Senha", type="password")
         submit_button = st.form_submit_button("Entrar")
-
+    
     if submit_button:
         if not username or not password:
             st.warning("Por favor, preencha todos os campos.")
@@ -36,6 +36,6 @@ def login_page():
                     st.error("Usuário ou senha inválidos!")
             except Exception as e:
                 st.error(f"Erro ao validar usuário: {e}")
-
+    st.markdown("Por favor, insira suas credenciais para acessar o sistema.")
 if __name__ == "__main__":
     login_page()

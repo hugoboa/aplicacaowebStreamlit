@@ -2,7 +2,8 @@ import streamlit as st
 from app.pages.home_page import home_page
 from app.pages.login_page import login_page
 from app.pages.dashboards_pages import dashboards_page
-
+import os
+os.environ["STREAMLIT_SERVER_FILEWATCHERTYPE"] = "none"
 def initialize_session_state():
     """
     Inicializa as variáveis de estado da sessão.

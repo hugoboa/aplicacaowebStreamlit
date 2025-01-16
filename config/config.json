@@ -13,5 +13,10 @@
         "password": "dw@bi#",
         "database": "postgres",
         "port": 5433
+    },
+    "mongodb": {
+    "host": "localhost",
+    "port": 28000,
+    "database": "Impetus"
     }
 }

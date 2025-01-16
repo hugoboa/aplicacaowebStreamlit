@@ -2,7 +2,6 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 from adapters.db.postgres_adapter import PostgresAdapter
-#from calculations.db_queries import get_dados_base
 from config.settings import CONFIG
 import os
 import plotly.express as px
@@ -29,6 +28,7 @@ def load_csv(file_path):
         st.error(f"Erro ao carregar o arquivo CSV: {e}")
         return None
     
+
 #if st.button("Limpar Cache"):
 #    st.cache_data.clear()
 #    st.success("Cache limpo!")
@@ -76,7 +76,7 @@ def Performance_comercial():
 
 
 
-     #Carregar o CSV
+    # Carregar o CSV
     file_path = r"C:\Users\hugo\Downloads\dados_concatenados - Copia.csv"
     
     data = load_csv(file_path)
@@ -234,15 +234,7 @@ def Performance_comercial():
 
             # Exibir o gráfico no Streamlit
             st.plotly_chart(fig)
-        st.markdown('<div class="button-margin">', unsafe_allow_html=True)
-        st.download_button(
-            label="Baixar Dados por CEEM",
-            data=ceem_consolidated.to_csv(index=False,sep=";").encode("utf-8"),
-            file_name="consolidado_ceem.csv",
-            mime="text/csv"
-        )
         
-        st.markdown('</div>', unsafe_allow_html=True)
        #Layout com duas colunas: tabela à esquerda e gráfico à direita
         col1, col2 = st.columns([2,1])
         with col1:
@@ -261,15 +253,14 @@ def Performance_comercial():
             fig.update_traces(textinfo="percent+label")  # Mostra porcentagem e rótulo
             st.plotly_chart(fig, use_container_width=True)
 
-        #st.markdown('<div class="elemento">Será listados dados de CEEM</div>', unsafe_allow_html=True)
-
-        # Botão de download
-        #st.download_button(
-        #    label="Baixar Dados Filtrados",
-        ##    data="Exemplo de dados em CSV",  # Substitua pelo seu DataFrame em CSV
-          #  file_name="consolidado_ceem.csv",
-          #  mime="text/csv"
-        #)
+        # Baixar dados filtrados
+        st.write("Será listados dados de CEEM")
+        st.download_button(
+            label="Baixar Dados Filtrados",
+            data=ceem_consolidated.to_csv(index=False,sep=";").encode("utf-8"),
+            file_name="consolidado_ceem.csv",
+            mime="text/csv"
+        )
 
 
     else:

@@ -1,0 +1,149 @@
+/* Arquivo: style.css */
+.custom-metric {
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.custom-metric h1 {
+    font-size: 2.5rem;
+    color: #2b2d42;
+    margin-bottom: 10px;
+}
+.custom-metric p {
+    font-size: 1.2rem;
+    color: #8d99ae;
+    margin: 0;
+}
+.metric-passagens {
+    background-color: #e9f7ef;
+    color: #28a745;
+}
+.metric-total {
+    background-color: #fce8e8;
+    color: #dc3545;
+}
+.metric-ceem {
+    background-color: #e9ecef;
+    color: #007bff;
+}
+
+
+h1 {
+    text-align: center; /* Centraliza horizontalmente */
+    margin-bottom: 20px; /* Espaçamento inferior para separação */
+}
+
+/*  Trabalhar dados css dos cards*/
+
+.block-container {
+    padding: 0; /* Remove o padding lateral */
+    margin: 0 auto; /* Centraliza o conteúdo */
+    max-width: 100%; /* Ocupa toda a largura */
+    align-items: center;
+}
+.metric-container {
+    display: flex;
+    flex-wrap: wrap; /*Permite quebra de linha caso a tela seja pequena */
+    justify-content: space-around; /* Espaçamento uniforme entre os cards */
+    gap: 20px; /* Espaço entre os cards */
+    padding: 10px;
+    /*max-width: 1200px; /* Largura máxima para telas grandes */
+    margin: 0 auto; /* Centraliza o contêiner */
+}
+.metric-box {
+    text-align: center;
+    flex: 1 1 30%; /* Cada card ocupa 30% do espaço disponível */
+    max-width: 350px; /* Largura máxima */
+    min-width: 300px; /* Largura mínima */
+    background-color: #e6f7ff; /* Azul claro */
+    border: 1px solid #b3d8ff; /* Borda azul */
+    border-radius: 10px; /* Bordas arredondadas */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    transition: transform 0.3s ease;
+}
+.metric-passagens {
+    background-color: #e6f7ff;
+    border-color: #d3d8ff;
+    color: #006600;
+    
+}
+
+.metric-valor_venda {
+    background-color: #7FFFD4;
+    border-color: #40E0D0;
+    color: #006600;
+}
+
+.metric-box:hover {
+    transform: scale(1.05); /* Aumenta ligeiramente no hover */
+}
+
+.metric-box h2 {
+    font-size: 16px; /* Tamanho da fonte para o título */
+    color: #006600; /* Cor azul escura */
+    margin-bottom: 10px; /* Espaço entre o título e o valor */
+}
+
+.metric-box p {
+    font-size: 24px; /* Tamanho da fonte para o valor */
+    font-weight: bold; /* Deixa o valor em negrito */
+    color: #000; /* Cor preto */
+    margin: 0; /* Remove margens extras */
+}
+
+/* Responsividade para telas médias (tablets) */
+@media screen and (max-width: 1024px) {
+    .metric-box {
+        flex: 1 1 48%; /* Cada card ocupa 48% do espaço */
+    }
+}
+
+/* Responsividade para telas pequenas (smartphones) */
+@media screen and (max-width: 768px) {
+    .metric-box {
+        flex: 1 1 100%; /* Cada card ocupa 100% do espaço */
+    }
+}
+
+/* Ajustar largura da tabela para ocupar todo o espaço disponível */
+[data-testid="stTable"] {
+    width: 100%; /* Faz a tabela ocupar toda a largura disponível */
+    margin: 0; /* Remove margens extras */
+    padding: 0; /* Remove padding extra */
+}
+
+/* Ajustar estilo das células para melhor visualização */
+[data-testid="stTable"] table {
+    border-collapse: collapse; /* Remove espaçamento entre bordas */
+    width: 100%; /* Garante que o conteúdo interno ocupe a largura total */
+    table-layout: fixed; /* Força o ajuste das colunas */
+}
+
+[data-testid="stTable"] th,
+[data-testid="stTable"] td {
+    padding: 10px; /* Espaçamento interno para melhor legibilidade */
+    text-align: left; /* Alinha o texto à esquerda */
+    word-wrap: break-word; /* Permite quebra de palavras longas */
+    border-bottom: 1px solid #ddd; /* Linha para separar as linhas */
+}
+
+/* Estilo alternado para melhorar a leitura */
+[data-testid="stTable"] tr:nth-child(even) {
+    background-color: #f9f9f9; /* Cor de fundo para linhas pares */
+}
+
+[data-testid="stTable"] tr:hover {
+    background-color: #f1f1f1; /* Destaque ao passar o mouse */
+}
+
+.elemento {
+    margin-bottom: 20px;
+}
+
+.button-margin {
+    margin-bottom: 20px; /* Define uma margem inferior após o botão */
+}
