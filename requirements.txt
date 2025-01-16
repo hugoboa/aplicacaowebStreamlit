@@ -1,4 +1,6 @@
 streamlit
-psycopg2-binary
 pandas
+numpy
+matplotlib
 plotly
+psycopg2-binary  # Para conexões com PostgreSQL
