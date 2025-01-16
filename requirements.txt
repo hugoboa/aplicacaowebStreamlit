@@ -4,3 +4,4 @@ numpy
 matplotlib
 plotly
 psycopg2-binary  # Para conexões com PostgreSQL
+python3
